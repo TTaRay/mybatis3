@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.UserDao">
+    <!--测试查询所有-->
+    <select id="findAll" resultType="com.ssm.domain.User">
+        select * from user;
+    </select>
+    <!--测试保存操作-->
+    <insert id="saveUser" parameterType="com.ssm.domain.User">
+        insert into user(username,address,sex,birthday) values(#{username},#{address},#{sex},#{birthday});
+    </insert>
+    <!--更新用户-->
+    <update id="updateUser" parameterType="com.ssm.domain.User">
+        update user set username=#{username},address=#{address},sex=#{sex},birthday=#{birthday} where id=#{id};
+    </update>
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete from user where id=#{id}
+    </delete>
+    <!--根据ID查询用户-->
+    <select id="getUserById" parameterType="java.lang.Integer" resultType="com.ssm.domain.User">
+        select * from user where id=#{id}
+    </select>
+    <!--根据用户名模糊查询-->
+    <select id="getUserByName" parameterType="java.lang.String" resultType="com.ssm.domain.User">
+        select * from user where username like #{name}
+    </select>
+</mapper>
