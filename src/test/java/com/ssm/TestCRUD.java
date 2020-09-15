@@ -1,6 +1,7 @@
 package com.ssm;
 
 import com.ssm.dao.UserDao;
+import com.ssm.domain.QueryVo;
 import com.ssm.domain.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -68,7 +69,10 @@ public class TestCRUD {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         u.setBirthday(sdf.parse("1998-12-20"));
         u.setAddress("河北雄安新区a幢67号");
+        System.out.println("保存前:"+u);
         userDao.saveUser(u);
+        //用于获取插入后文章ID
+        System.out.println("保存后:"+u);
     }
 
     /**
@@ -108,9 +112,37 @@ public class TestCRUD {
      */
     @Test
     public void getUserByName(){
-        List<User> list = userDao.getUserByName("%播客%");
+//        List<User> list = userDao.getUserByName("%播客%");
+        List<User> list = userDao.getUserByName("播客");
         for(User u:list){
             System.out.println(u);
         }
     }
+
+    /**
+     * 查询总用户数
+     */
+    @Test
+    public void findTotal(){
+        int count=userDao.findTotal();
+        System.out.println(count);
+    }
+
+
+    /**
+     * 根据自定义实体类获取数据
+     */
+    @Test
+    public void findByVo(){
+        QueryVo q = new QueryVo();
+        User u = new User();
+        u.setUsername("%播客%");
+        q.setUser(u);
+        List<User> list = userDao.findByVo(q);
+        for (User user:list){
+            System.out.println(user);
+        }
+    }
+
+
 }

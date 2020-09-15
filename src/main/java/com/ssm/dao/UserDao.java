@@ -1,5 +1,6 @@
 package com.ssm.dao;
 
+import com.ssm.domain.QueryVo;
 import com.ssm.domain.User;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface UserDao {
     User getUserById(Integer uid);
     //根据用户名模糊查询
     List<User> getUserByName(String name);
+    //查询总用户数
+    int findTotal();
+    //根据username查询
+    List<User> findByVo(QueryVo queryVo);
 }

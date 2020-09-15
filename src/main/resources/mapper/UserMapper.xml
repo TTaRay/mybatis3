@@ -7,8 +7,12 @@
     <select id="findAll" resultType="com.ssm.domain.User">
         select * from user;
     </select>
-    <!--测试保存操作-->
+    <!--保存操作-->
     <insert id="saveUser" parameterType="com.ssm.domain.User">
+        <!--配置插入操作后获取插入数据的ID-->
+        <selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
         insert into user(username,address,sex,birthday) values(#{username},#{address},#{sex},#{birthday});
     </insert>
     <!--更新用户-->
@@ -25,6 +29,17 @@
     </select>
     <!--根据用户名模糊查询-->
     <select id="getUserByName" parameterType="java.lang.String" resultType="com.ssm.domain.User">
-        select * from user where username like #{name}
+        <!--select * from user where username like #{name}-->
+        <!--我们在上面将原来的#{}占位符，改成了${value}。注意如果用模糊查询的这种写法，那么${value}的写法就是固定的，不能写成其它名字。-->
+        select * from user where username like '%${value}%'
+    </select>
+    <!--查询总用户数-->
+    <select id="findTotal" resultType="java.lang.Integer">
+        select count(id) from user;
+    </select>
+
+    <!--根据QueryVo条件查询用户-->
+    <select id="findByVo" parameterType="com.ssm.domain.QueryVo" resultType="com.ssm.domain.User">
+        select * from user where username like #{user.username}
     </select>
 </mapper>
