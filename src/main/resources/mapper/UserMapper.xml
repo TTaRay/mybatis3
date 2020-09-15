@@ -5,19 +5,21 @@
 <mapper namespace="com.ssm.dao.UserDao">
     <!--测试查询所有-->
     <select id="findAll" resultType="com.ssm.domain.User">
-        select * from user;
+        <!--通过别名的方式解决数据库字段和实体类变量不对应-->
+        select id as userId,username as name,birthday as userBirthday,sex as userSex,address as address from user;
     </select>
     <!--保存操作-->
     <insert id="saveUser" parameterType="com.ssm.domain.User">
-        <!--配置插入操作后获取插入数据的ID-->
-        <selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER">
+        <!--知识点2：配置插入操作后获取插入数据的ID,这里keyProperty要和实体类成员变量一样-->
+        <selectKey keyProperty="userId" keyColumn="id" resultType="int" order="AFTER">
             select last_insert_id();
         </selectKey>
-        insert into user(username,address,sex,birthday) values(#{username},#{address},#{sex},#{birthday});
+        <!--知识点3:实体类变量名和数据库不对应时，应该使用实体类的成员变量名 和get set方法名无关！-->
+        insert into user(username,address,sex,birthday) values(#{name},#{address},#{userSex},#{userBirthday});
     </insert>
     <!--更新用户-->
     <update id="updateUser" parameterType="com.ssm.domain.User">
-        update user set username=#{username},address=#{address},sex=#{sex},birthday=#{birthday} where id=#{id};
+        update user set username=#{name},address=#{address},sex=#{userSex},birthday=#{userBirthday} where id=#{userId};
     </update>
     <!--删除用户-->
     <delete id="deleteUser" parameterType="java.lang.Integer">

@@ -46,8 +46,9 @@ public class TestCRUD {
     }
 
     /**
-     * 查询所有User
-     * @throws IOException
+     * 知识点5：查询所有User 只有没修改变量名的addRess赋值进去了
+     * 因为在windows中mysql数据库不区分大小写（或者数据库在linux中设置了不区分大小写）
+     * 但是像其他字段名字都变了的就无法赋值了
      */
     @Test
     public void testFindAll() throws IOException {
@@ -64,11 +65,11 @@ public class TestCRUD {
     @Test
     public void testSaveUser() throws Exception{
         User u = new User();
-        u.setUsername("塔睿");
-        u.setSex("女");
+        u.setNeame("塔睿2");
+        u.setUserSex("女");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        u.setBirthday(sdf.parse("1998-12-20"));
-        u.setAddress("河北雄安新区a幢67号");
+        u.setUserBirthday(sdf.parse("1998-12-20"));
+        u.setAddRess("河北雄安新区a幢67号");
         System.out.println("保存前:"+u);
         userDao.saveUser(u);
         //用于获取插入后文章ID
@@ -81,12 +82,12 @@ public class TestCRUD {
     @Test
     public void testUpdUser() throws Exception{
         User u = new User();
-        u.setId(54);
-        u.setUsername("塔睿");
-        u.setSex("男");
+        u.setUserId(62);
+        u.setNeame("阿狸");
+        u.setUserSex("女");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        u.setBirthday(sdf.parse("1994-12-20"));
-        u.setAddress("河北雄安新区a幢67号");
+        u.setUserBirthday(sdf.parse("2994-12-20"));
+        u.setAddRess("天河苏氏18号");
         userDao.updateUser(u);
     }
 
@@ -95,7 +96,7 @@ public class TestCRUD {
      */
     @Test
     public void testDeleteUser() throws Exception{
-        userDao.deleteUser(54);
+        userDao.deleteUser(61);
     }
 
     /**
@@ -136,7 +137,7 @@ public class TestCRUD {
     public void findByVo(){
         QueryVo q = new QueryVo();
         User u = new User();
-        u.setUsername("%播客%");
+        u.setNeame("%播客%");
         q.setUser(u);
         List<User> list = userDao.findByVo(q);
         for (User user:list){
